@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
@@ -84,14 +86,37 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse> implement
     }
 
     @Override
+    public Builder button(
+            @NonNull String text,
+            FormImage.@NonNull Type type,
+            @NonNull String data,
+            Consumer<SimpleFormResponse> callback
+    ) {
+      buttons.add(ButtonComponent.of(translate(text), type, data, callback));
+      return this;
+    }
+
+    @Override
     public Builder button(@NonNull String text, @Nullable FormImage image) {
       buttons.add(ButtonComponent.of(translate(text), image));
       return this;
     }
 
     @Override
+    public Builder button(@NonNull String text, @Nullable FormImage image, Consumer<SimpleFormResponse> callback) {
+      buttons.add(ButtonComponent.of(translate(text), image, callback));
+      return this;
+    }
+
+    @Override
     public Builder button(@NonNull String text) {
       buttons.add(ButtonComponent.of(translate(text)));
+      return this;
+    }
+
+    @Override
+    public Builder button(@NonNull String text, Consumer<SimpleFormResponse> callback) {
+      buttons.add(ButtonComponent.of(translate(text), callback));
       return this;
     }
 

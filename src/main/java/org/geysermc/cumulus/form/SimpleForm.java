@@ -25,6 +25,8 @@
 package org.geysermc.cumulus.form;
 
 import java.util.List;
+import java.util.function.Consumer;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.common.returnsreceiver.qual.This;
@@ -103,11 +105,37 @@ public interface SimpleForm extends Form {
     /**
      * Adds a button with image to the Form.
      *
+     * @param text text of the button
+     * @param type type of image
+     * @param data the data for the image type
+     * @param callback the response handler when the button is clicked
+     * @return the form builder
+     */
+    @This Builder button(
+            @NonNull String text,
+            FormImage.@NonNull Type type,
+            @NonNull String data,
+            Consumer<SimpleFormResponse> callback
+    );
+
+    /**
+     * Adds a button with image to the Form.
+     *
      * @param text the text of the button
      * @param image the image
      * @return the form builder
      */
     @This Builder button(@NonNull String text, @Nullable FormImage image);
+
+    /**
+     * Adds a button with image to the Form.
+     *
+     * @param text the text of the button
+     * @param image the image
+     * @param callback the response handler when the button is clicked
+     * @return the form builder
+     */
+    @This Builder button(@NonNull String text, @Nullable FormImage image, Consumer<SimpleFormResponse> callback);
 
     /**
      * Adds a button to the Form.
@@ -116,6 +144,15 @@ public interface SimpleForm extends Form {
      * @return the form builder
      */
     @This Builder button(@NonNull String text);
+
+    /**
+     * Adds a button to the Form.
+     *
+     * @param text the text of the button
+     * @param callback the response handler when the button is clicked
+     * @return the form builder
+     */
+    @This Builder button(@NonNull String text, Consumer<SimpleFormResponse> callback);
 
     /**
      * Adds a button with image to the Form, but only when shouldAdd is true.
