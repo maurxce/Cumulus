@@ -27,24 +27,48 @@ package org.geysermc.cumulus.component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.impl.ButtonComponentImpl;
+import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.util.FormImage;
+
+import java.util.function.Consumer;
 
 /**
  * Button component is a component that can only be used in SimpleForm. With this component you can
  * show a button with an optional image attached to it.
  */
 public interface ButtonComponent {
+  static @NonNull ButtonComponent of(
+          @NonNull String text,
+          @Nullable FormImage image,
+          @Nullable Consumer<SimpleFormResponse> callback
+  ) {
+    return new ButtonComponentImpl(text, image, callback);
+  }
+
   static @NonNull ButtonComponent of(@NonNull String text, @Nullable FormImage image) {
-    return new ButtonComponentImpl(text, image);
+    return new ButtonComponentImpl(text, image, null);
+  }
+
+  static @NonNull ButtonComponent of(
+          @NonNull String text,
+          FormImage.@NonNull Type type,
+          @NonNull String data,
+          @Nullable Consumer<SimpleFormResponse> callback
+  ) {
+    return new ButtonComponentImpl(text, FormImage.of(type, data), callback);
   }
 
   static @NonNull ButtonComponent of(
       @NonNull String text, FormImage.@NonNull Type type, @NonNull String data) {
-    return new ButtonComponentImpl(text, FormImage.of(type, data));
+    return new ButtonComponentImpl(text, FormImage.of(type, data), null);
+  }
+
+  static @NonNull ButtonComponent of(@NonNull String text, @Nullable Consumer<SimpleFormResponse> callback) {
+    return new ButtonComponentImpl(text, null, callback);
   }
 
   static @NonNull ButtonComponent of(@NonNull String text) {
-    return of(text, null);
+    return new ButtonComponentImpl(text, null, null);
   }
 
   /**
@@ -60,4 +84,9 @@ public interface ButtonComponent {
    * @since 1.1
    */
   @Nullable FormImage image();
+
+  /**
+   * Returns the consumer that is ran on button click.
+   */
+  @Nullable Consumer<SimpleFormResponse> callback();
 }

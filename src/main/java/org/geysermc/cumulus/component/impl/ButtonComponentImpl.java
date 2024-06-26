@@ -25,18 +25,27 @@
 package org.geysermc.cumulus.component.impl;
 
 import java.util.Objects;
+import java.util.function.Consumer;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
+import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.util.FormImage;
 
 public final class ButtonComponentImpl implements ButtonComponent {
   private final String text;
   private final FormImage image;
+  private final Consumer<SimpleFormResponse> callback;
 
-  public ButtonComponentImpl(@NonNull String text, @Nullable FormImage image) {
+  public ButtonComponentImpl(
+          @NonNull String text,
+          @Nullable FormImage image,
+          @Nullable Consumer<SimpleFormResponse> callback
+  ) {
     this.text = Objects.requireNonNull(text, "text");
     this.image = image;
+    this.callback = callback;
   }
 
   @Override
@@ -47,5 +56,10 @@ public final class ButtonComponentImpl implements ButtonComponent {
   @Override
   public @Nullable FormImage image() {
     return image;
+  }
+
+  @Override
+  public @Nullable Consumer<SimpleFormResponse> callback() {
+    return callback;
   }
 }
