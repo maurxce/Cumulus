@@ -131,7 +131,8 @@ public interface SimpleForm extends Form {
         @NonNull String text,
         FormImage.@NonNull Type type,
         @NonNull String data,
-        boolean shouldAdd);
+        boolean shouldAdd
+    );
 
     /**
      * Adds a button with image to the Form, but only when shouldAdd is true.
